@@ -39,6 +39,10 @@ class TennisMatchScore {
         else echo $this->player2;
         echo self::VICTORY_MSG;
     }
+
+    public function printHighestSetDifference(): void {
+        //TODO
+    }
 }
 
 ?>
