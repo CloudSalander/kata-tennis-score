@@ -4,10 +4,15 @@ class TennisMatchScore {
     private string $player2;
     private array $sets;
 
-    //Can't type class consts in PHP?
+    //Can't type class consts in PHP? Yes! But form 8.3v beyond!!
+    //(This program was made under 8.2.12v :( )
     const HORIZONTAL_BAR = "|";
     const PLAYERS_SEPARATOR = "---";
     const VICTORY_MSG = " won the game!".PHP_EOL;
+
+    const SET_MAP = [1 => "first", 2 => "second",
+                     3 => "third", 4 => "fouth",
+                     5 => "fifth"];
 
     public function __construct(array $sets) {
         $this->sets = $sets;
@@ -41,7 +46,20 @@ class TennisMatchScore {
     }
 
     public function printHighestSetDifference(): void {
-        //TODO
+        $highest_difference_index = null;
+        $highest_difference = 0;
+        foreach($this->sets as $current_index => $set) {
+            $current_difference = abs($set->player1 - $set->player2);
+            //Open question to students: Why ">" and not ">="?
+            if($current_difference > $highest_difference) {
+                $highest_difference_index = $current_index;
+                $highest_difference = $current_difference;        
+            }
+        }
+        echo "Highest difference set was ".self::SET_MAP[$highest_difference_index+1].
+        " one set(".$this->sets[$highest_difference_index]->player1." - ".
+        $this->sets[$highest_difference_index]->player2.") ".
+        "with ".$highest_difference." games difference";
     }
 }
 
