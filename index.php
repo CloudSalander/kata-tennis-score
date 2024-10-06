@@ -12,7 +12,9 @@ $match = new TennisMatchScore([$set1,$set2,$set3,$set4,$set5]);
 $match->setPlayer1Name("Pete Sampras");
 $match->setPlayer2Name("André Agassi");
 
+/*
 $match->printWinner();
 $match->printHighestSetDifference();
-
+*/
+$match->printScore();
 ?>
