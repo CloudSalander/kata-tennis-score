@@ -10,9 +10,9 @@ class TennisMatchScore {
     const SET_SEPARATOR = "|";
     const VICTORY_MSG = " won the game!".PHP_EOL;
 
-    const SET_MAP = [1 => "first", 2 => "second",
-                     3 => "third", 4 => "fouth",
-                     5 => "fifth"];
+    const SET_MAP = [0 => "first", 1 => "second",
+                     2 => "third", 3 => "fouth",
+                     4 => "fifth"];
 
     public function __construct(array $sets) {
         $this->sets = $sets;
@@ -21,12 +21,9 @@ class TennisMatchScore {
         $this->players_separator = str_repeat("-",(count($this->sets) - 1)*2 + 1);
     }
 
-    public function setPlayer1Name(string $name): void {
-        $this->player1 = $name;
-    }
-    //TODO: Maybe refactor these ones? Not heavy...
-    public function setPlayer2Name(string $name):void {
-        $this->player2 = $name;
+    public function setPlayerName(string $name, int $player_n): void {
+        $attribute = "player".$player_n;
+        $this->$attribute = $name;
     }
 
     public function printScore(): void {
@@ -57,21 +54,32 @@ class TennisMatchScore {
         echo self::VICTORY_MSG;
     }
 
+    //Warning!: This solution does not take into account that the same difference is repeated in more than one set! :( 
+    //Sorry @sergilopez04
     public function printHighestSetDifference(): void {
-        $highest_difference_index = null;
+
+        $highest_set = $this->getHighestSetDifference();
+        $highest_difference = $this->sets[$highest_set]->player1 - $this->sets[$highest_set]->player2; 
+ 
+        echo "Highest difference set was ".self::SET_MAP[$highest_set].
+        " one(".$this->sets[$highest_set]->player1." - ".
+        $this->sets[$highest_set]->player2.") ".
+        "with ".$highest_difference." games difference";
+    }
+
+    private function getHighestSetDifference(): int {
+
+        $highest_set = -1;
         $highest_difference = 0;
+
         foreach($this->sets as $current_index => $set) {
             $current_difference = abs($set->player1 - $set->player2);
             //Open question to students: Why ">" and not ">="?
             if($current_difference > $highest_difference) {
-                $highest_difference_index = $current_index;
-                $highest_difference = $current_difference;        
+                $highest_set = $current_index;        
             }
         }
-        echo "Highest difference set was ".self::SET_MAP[$highest_difference_index+1].
-        " one set(".$this->sets[$highest_difference_index]->player1." - ".
-        $this->sets[$highest_difference_index]->player2.") ".
-        "with ".$highest_difference." games difference";
+        return $highest_set;
     }
 }
 
