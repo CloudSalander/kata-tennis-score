@@ -18,7 +18,11 @@ class TennisMatchScore {
         $this->sets = $sets;
         //I found that, depending on sets of a match
         //Players separator size can change.So, can't be a constant
-        $this->players_separator = str_repeat("-",(count($this->sets) - 1)*2 + 1);
+        $this->players_separator = str_repeat("-", $this->getPlayersSeparatorLenght());
+    }
+
+    private function getPlayersSeparatorLenght(): int {
+        return (count($this->sets) - 1)*2 + 1;
     }
 
     public function setPlayerName(string $name, int $player_n): void {
